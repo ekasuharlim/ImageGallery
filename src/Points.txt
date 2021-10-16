@@ -13,3 +13,14 @@ Setup IdentityServer:
 	When completed it will provide all the endpoints
 	Setup users => scope = what can be accessed 
 	Setup clients => scope = what can be accessed 
+
+Setup in Client :
+	Customize Authentication : need package openid connect
+	OpenIDConnect is a middleware
+	Client Restricted page 
+		-> Redirect to IdentityServer 
+		-> Logged In 
+		-> IS calls redirect url (signin-oidc)
+		-> Client Middleware calls token endpoint 
+		-> IS return token 
+		-> back to restricted page
