@@ -3,8 +3,13 @@
 
 End Point:
 	Authorization endpoint (IDP Level) -> redirection from client to IDP
-	Rediction endpoint (client level) -> redirect too
 	Token endpoint (IDP level) -> client request token (httpost)
+	Rediction endpoint (client level) -> redirect too client
 OpenID Flow
 	Confidential Client : Web App
 	Public Client : JS or Mobile App
+
+Setup IdentityServer:
+	When completed it will provide all the endpoints
+	Setup users => scope = what can be accessed 
+	Setup clients => scope = what can be accessed 
