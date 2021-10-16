@@ -1,0 +1,10 @@
+﻿OpenID 
+	Superset of OAuth2 which add authentication
+
+End Point:
+	Authorization endpoint (IDP Level) -> redirection from client to IDP
+	Rediction endpoint (client level) -> redirect too
+	Token endpoint (IDP level) -> client request token (httpost)
+OpenID Flow
+	Confidential Client : Web App
+	Public Client : JS or Mobile App
