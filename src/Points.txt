@@ -17,10 +17,18 @@ Setup IdentityServer:
 Setup in Client :
 	Customize Authentication : need package openid connect
 	OpenIDConnect is a middleware
-	Client Restricted page 
-		-> Redirect to IdentityServer 
+	Logging in
+		-> Client Restricted page 
+		-> Midlleware Redirect to IS login endpoint
 		-> Logged In 
 		-> IS calls redirect url (signin-oidc)
-		-> Client Middleware calls token endpoint 
-		-> IS return token 
+			-> Client Middleware calls token endpoint  (Server to server)
+			-> IS return token 
 		-> back to restricted page
+
+	Logging out
+		-> Client logout action
+		-> Middleware redirect browser to IS logout endpoint
+		-> IS logout working
+		-> IS Logout call client post signout-callback url 
+		-> middleware handle signout-callback url  
