@@ -1,4 +1,5 @@
-﻿using ImageGallery.Client.ViewModels;
+﻿using IdentityModel.Client;
+using ImageGallery.Client.ViewModels;
 using ImageGallery.Model;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -193,11 +194,35 @@ namespace ImageGallery.Client.Controllers
             return RedirectToAction("Index");
         }
 
-        public void Logout() 
+        public async Task Logout() 
         {
-            this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            this.HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);
+            await this.HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await this.HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);            
+        }
+
+        public async Task<ActionResult> ShowUserInfo() 
+        {
+            var userVm = new UserInfoViewModel();
+            var idpClient = _httpClientFactory.CreateClient("IDPClient");
+
+            var idpAddress = await idpClient.GetDiscoveryDocumentAsync();
+            var token = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+            var userInfoResponse = await idpClient.GetUserInfoAsync(new UserInfoRequest
+            {
+                Address = idpAddress.UserInfoEndpoint,
+                Token = token                
+            });
+
+            foreach (var claim in userInfoResponse.Claims) 
+            {
+                Debug.WriteLine($"User Info {claim.Type} => {claim.Value}");
+            }
             
+
+            userVm.Address = userInfoResponse.Claims.FirstOrDefault(c => c.Type == "address")?.Value;            
+            Debug.WriteLine($"User Address {userVm.Address}");
+            return View("UserInfo", userVm);
         }
     }
 }

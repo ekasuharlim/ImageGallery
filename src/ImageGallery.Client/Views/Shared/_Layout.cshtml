@@ -37,6 +37,7 @@
                     <li><a asp-area="" asp-controller="Gallery" asp-action="AddImage">Add an image</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
+                        <li><a asp-area="" asp-controller="Gallery" asp-action="ShowUserInfo">User Info</a></li>
                         <li><a asp-area="" asp-controller="Gallery" asp-action="Logout">Logout</a></li>
                     }
                 </ul>

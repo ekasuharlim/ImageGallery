@@ -32,3 +32,13 @@ Setup in Client :
 		-> IS logout working
 		-> IS Logout call client post signout-callback url 
 		-> middleware handle signout-callback url  
+
+Getting other info from UserInfo Endpoint
+	sample : Getting address info by calling userinfo endpoint manually
+			 Address can be returned inside token, but it will cause token size to be bigger, and might be not needed
+	Configure on IDP
+		Add address scope in client config and identity resource
+	Configure on Client
+		Add address scope
+
+Why consent page doesn't show up ?
