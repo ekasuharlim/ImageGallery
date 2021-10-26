@@ -41,4 +41,15 @@ Getting other info from UserInfo Endpoint
 	Configure on Client
 		Add address scope
 
+Adding Role Based Authorization (RBAC)
+	Role is new claim type
+	Configure on IDP
+		Add scope for user
+		Add roles to users
+	Configure on client
+		Add mapping for roles
+		Using User.IsInRole
+		Diff betweeen userinfo nameclaim and roleclaim => need to add TokenValidationParameters => why ?
+
+
 Why consent page doesn't show up ?

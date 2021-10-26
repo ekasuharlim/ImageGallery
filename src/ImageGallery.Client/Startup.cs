@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using IdentityModel;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -6,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using System;
 
@@ -46,7 +48,9 @@ namespace ImageGallery.Client
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => 
+            options.AccessDeniedPath = "/Authorization/AccessDenied"
+            )
             //Check the OpenIdConnectOptions createion in github where it creates all the default value
             .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
             {
@@ -59,10 +63,19 @@ namespace ImageGallery.Client
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("address");
-                
+                options.Scope.Add("roles");
+
+                options.ClaimActions.MapUniqueJsonKey("role", "role");
+
+
                 options.SaveTokens = true;
                 options.ClientSecret = "secret";
                 options.GetClaimsFromUserInfoEndpoint = true;
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = JwtClaimTypes.GivenName,
+                    RoleClaimType = JwtClaimTypes.Role
+                };
             });
 
         }
