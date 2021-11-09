@@ -38,7 +38,9 @@ namespace Marvin.IDP
         {
             new ApiResource("imagegalleryclientapi","Image Gallery API")
             {
-                Scopes = { "igread" }
+                Scopes = { "igread" },
+                UserClaims = { "role"}
+
             }
         };
 

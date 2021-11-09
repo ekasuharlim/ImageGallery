@@ -53,20 +53,28 @@ Adding Role Based Authorization (RBAC)
 
 
 Securing API :	
-	insepct identity token and access token
-	Diffrent between roles in client vs api
+	User Level 
+		Claims  = any tag in user config defined as claims
+
+	Client Level
+		IdentityResource => name = scope 
+		ApiResource => scope defined separtely
+		Add allowed scope to Client config -> on UI user will give conset to the scopes
+
 	Configure IDP
 		Add Api Scope
 		Add Api Resource 
 			ApiScopes is what you ask for as a client and as a user you give consent to. Optionally, one or more ApiResources can associated with an ApiScope.
 			ApiResources points out what the aud claim in the access token will contains.
 			The ApiScope and ApiResources controls what is included in the access token. 
+
 	Configure API
 		IdentityServer4.AccessTokenValidation
 			ApiName = Resource name in IDP		
 	Configure Client 
 		Call Api using access token, using DelegatingHandler
 	
-	Add roles based to access token
+
+
 	
 	
