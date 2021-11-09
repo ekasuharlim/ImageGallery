@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using IdentityServer4.AccessTokenValidation;
 using ImageGallery.API.Entities;
 using ImageGallery.API.Services;
 using Microsoft.AspNetCore.Builder;
@@ -37,6 +38,12 @@ namespace ImageGallery.API
                     Configuration["ConnectionStrings:ImageGalleryDBConnectionString"]);
             });
 
+            services.AddAuthentication(IdentityServerAuthenticationDefaults.AuthenticationScheme).AddIdentityServerAuthentication(options =>
+            {
+                options.Authority = "https://localhost:44318/";
+                options.ApiName = "imagegalleryclientapi";
+            });
+
             // register the repository
             services.AddScoped<IGalleryRepository, GalleryRepository>();
 
@@ -72,7 +79,11 @@ namespace ImageGallery.API
 
             app.UseStaticFiles();
 
-            app.UseRouting(); 
+            app.UseAuthentication();
+            
+            app.UseRouting();
+
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

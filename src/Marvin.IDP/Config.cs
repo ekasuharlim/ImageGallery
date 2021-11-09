@@ -12,7 +12,7 @@ namespace Marvin.IDP
     {
         public static IEnumerable<IdentityResource> IdentityResources =>
             new IdentityResource[]
-            { 
+            {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Address(),
@@ -27,14 +27,26 @@ namespace Marvin.IDP
                 }
             };
 
-        public static IEnumerable<ApiScope> ApiScopes =>
-            new ApiScope[]
-            { };
+        public static IEnumerable<ApiScope> ApiScope =>
+        new ApiScope[]
+        {
+                new ApiScope("igread","Image Gallery API Read Image")
+        };
+
+        public static IEnumerable<ApiResource> ApiResources =>
+        new ApiResource[]
+        {
+            new ApiResource("imagegalleryclientapi","Image Gallery API")
+            {
+                Scopes = { "igread" }
+            }
+        };
+
 
         public static IEnumerable<Client> Clients =>
-            new Client[] 
-            { 
-                new Client{ 
+            new Client[]
+            {
+                new Client{
                     ClientName = "Image Gallery",
                     ClientId = "imagegalleryclient",
                     AllowedGrantTypes = GrantTypes.Code,
@@ -47,14 +59,15 @@ namespace Marvin.IDP
                     {
                         "https://localhost:44389/signout-callback-oidc"
                     },
-                    AllowedScopes = 
+                    AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address,
-                        "roles"
+                        "roles",
+                        "igread"
                     },
-                    ClientSecrets = new List<Secret>{ 
+                    ClientSecrets = new List<Secret>{
                         new Secret("secret".Sha256())
                     }
                 }

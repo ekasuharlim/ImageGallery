@@ -1,4 +1,5 @@
 ﻿using IdentityModel;
+using ImageGallery.Client.HttpHandler;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -28,13 +29,16 @@ namespace ImageGallery.Client
             services.AddControllersWithViews()
                  .AddJsonOptions(opts => opts.JsonSerializerOptions.PropertyNamingPolicy = null);
 
+            services.AddHttpContextAccessor();
+            services.AddTransient<BearerTokenHandler>();
+
             // create an HttpClient used for accessing the API
             services.AddHttpClient("APIClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44366/");
                 client.DefaultRequestHeaders.Clear();
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
-            });
+            }).AddHttpMessageHandler<BearerTokenHandler>();
             services.AddHttpClient("IDPClient", client =>
             {
                 client.BaseAddress = new Uri("https://localhost:44318/");
@@ -57,19 +61,22 @@ namespace ImageGallery.Client
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.Authority = "https://localhost:44318/";
                 options.ClientId = "imagegalleryclient";
+                options.ClientSecret = "secret";
                 options.ResponseType = "code";
+                options.Prompt = "consent";
                 //options.UsePkce = false;
                 //options.CallbackPath = "xx"
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("address");
                 options.Scope.Add("roles");
+                options.Scope.Add("igread");
 
                 options.ClaimActions.MapUniqueJsonKey("role", "role");
 
 
                 options.SaveTokens = true;
-                options.ClientSecret = "secret";
+                
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {

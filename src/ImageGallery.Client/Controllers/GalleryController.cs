@@ -28,7 +28,9 @@ namespace ImageGallery.Client.Controllers
         private async Task WriteIdentityInfo() 
         {
             var identityToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);
+            var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);            
             Debug.WriteLine($"Identity token {identityToken}");
+            Debug.WriteLine($"access token {accessToken}");
             foreach (var claim in User.Claims) 
             {
                 Debug.WriteLine($"Claim Type {claim.Type} Claim Value {claim.Value}");

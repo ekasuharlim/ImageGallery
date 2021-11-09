@@ -30,7 +30,8 @@ namespace Marvin.IDP
                 options.EmitStaticAudienceClaim = true;
             })
             .AddInMemoryIdentityResources(Config.IdentityResources)
-            .AddInMemoryApiScopes(Config.ApiScopes)
+            .AddInMemoryApiScopes(Config.ApiScope)
+            .AddInMemoryApiResources(Config.ApiResources)
             .AddInMemoryClients(Config.Clients)
             .AddTestUsers(TestUsers.Users);
 
