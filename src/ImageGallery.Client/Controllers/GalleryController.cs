@@ -229,7 +229,7 @@ namespace ImageGallery.Client.Controllers
             return View("UserInfo", userVm);
         }
 
-        [Authorize(Roles ="PayingUser")]
+        [Authorize(Policy = "CanOrderFrame")]
         public async Task<IActionResult> OrderFrame()
         {
             var idpClient = _httpClientFactory.CreateClient("IDPClient");

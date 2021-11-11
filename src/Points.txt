@@ -57,7 +57,7 @@ Securing API :
 		Claims  = any tag in user config defined as claims
 
 	Client Level
-		IdentityResource => name = scope 
+		IdentityResource => name = scope , add claims
 		ApiResource => scope defined separtely
 		Add allowed scope to Client config -> on UI user will give conset to the scopes
 
@@ -65,7 +65,7 @@ Securing API :
 		Add Api Scope
 		Add Api Resource 
 			ApiScopes is what you ask for as a client and as a user you give consent to. Optionally, one or more ApiResources can associated with an ApiScope.
-			ApiResources points out what the aud claim in the access token will contains.
+			ApiResources points out what the aud claim in the access token will contains, thi aud will be check when api validate against id4
 			The ApiScope and ApiResources controls what is included in the access token. 
 
 	Configure API
@@ -75,6 +75,15 @@ Securing API :
 		Call Api using access token, using DelegatingHandler
 	
 
-
+Securing API using Policy
+	Policy = combination of claim
+		- Add claim
+		- Add Role
+		- Add Custom authorization
 	
+	Define new claim in IDP level
+	Define policy in client level
 	
+Policy using custom autorization requirement
+	AddClaim,RequireAuthorization => built in authorization requirement 
+	CustomRequirement => needs => CustomRequirementHandler <= this is where the logic

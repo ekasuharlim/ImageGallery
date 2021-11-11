@@ -24,7 +24,26 @@ namespace Marvin.IDP
                     {
                         "role"
                     }
+                },
+                new IdentityResource
+                {
+                    Name = "country",
+                    DisplayName = "Your Country",
+                    UserClaims = new List<string>
+                    {
+                        "country"
+                    }
+                },
+                new IdentityResource
+                {
+                    Name = "subscription",
+                    DisplayName = "Your SubscriptionLevel",
+                    UserClaims = new List<string>
+                    {
+                        "subscription"
+                    }
                 }
+
             };
 
         public static IEnumerable<ApiScope> ApiScope =>
@@ -67,7 +86,9 @@ namespace Marvin.IDP
                         IdentityServerConstants.StandardScopes.Profile,
                         IdentityServerConstants.StandardScopes.Address,
                         "roles",
-                        "igread"
+                        "igread",
+                        "subscription",
+                        "country"
                     },
                     ClientSecrets = new List<Secret>{
                         new Secret("secret".Sha256())

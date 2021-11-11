@@ -46,6 +46,14 @@ namespace ImageGallery.Client
                 client.DefaultRequestHeaders.Add(HeaderNames.Accept, "application/json");
             });
 
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("CanOrderFrame", policyBuilder => {
+                    policyBuilder.RequireAuthenticatedUser();
+                    policyBuilder.RequireClaim("country", "ID");
+                    policyBuilder.RequireClaim("subscription", "PayingUser");
+                });
+            });
 
             services.AddAuthentication(options =>
             {
@@ -70,9 +78,14 @@ namespace ImageGallery.Client
                 options.Scope.Add("profile");
                 options.Scope.Add("address");
                 options.Scope.Add("roles");
+                options.Scope.Add("subscription");
+                options.Scope.Add("country");
                 options.Scope.Add("igread");
 
+
                 options.ClaimActions.MapUniqueJsonKey("role", "role");
+                options.ClaimActions.MapUniqueJsonKey("subscription", "subscription");
+                options.ClaimActions.MapUniqueJsonKey("country", "country");
 
 
                 options.SaveTokens = true;
